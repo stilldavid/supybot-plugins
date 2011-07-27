@@ -90,13 +90,13 @@ reload(plugin) # In case we're being reloaded.
 if world.testing:
     import test
 
-class Sparkfun(callbacks.PluginRegexp): 
-    regexps = ['sparkfunSnarfer'] 
- 
-    def sparkfunSnarfer(self, irc, msg, match): 
+class Sparkfun(callbacks.PluginRegexp):
+    regexps = ['sparkfunSnarfer']
+
+    def sparkfunSnarfer(self, irc, msg, match):
         r'https?://(www\.)?(sparkfun|sprkfn)\.com(.*)'
         dom = match.group(2)
-        url = match.group(3) 
+        url = match.group(3)
         if 'sprkfn' == dom:
             print 'sprkfn'
         elif 'sparkfun' == dom:
@@ -115,30 +115,30 @@ class Sparkfun(callbacks.PluginRegexp):
                     irc.reply('that news post does not exist!')
                     return
                 irc.reply(data['news_title'] + ' [ http://sprkfn.com/n' + data['news_id'] + ' ]')
-    sparkfunSnarfer = urlSnarfer(sparkfunSnarfer) 
+    sparkfunSnarfer = urlSnarfer(sparkfunSnarfer)
 
     def parseurl(self, url, channel):
         return
- 
-    def getproduct(self, product, channel): 
+
+    def getproduct(self, product, channel):
         try:
-            fd = utils.web.getUrlFd('http://www.sparkfun.com/products/' + product + '.json') 
+            fd = utils.web.getUrlFd('http://www.sparkfun.com/products/' + product + '.json')
         except utils.web.Error, e:
             return False
-        json = simplejson.load(fd) 
-        fd.close() 
+        json = simplejson.load(fd)
+        fd.close()
         return json
- 
-    def getnews(self, newsid, channel): 
-        fd = utils.web.getUrlFd('http://www.sparkfun.com/news/' + newsid + '.json') 
-        json = simplejson.load(fd) 
-        fd.close() 
+
+    def getnews(self, newsid, channel):
+        fd = utils.web.getUrlFd('http://www.sparkfun.com/news/' + newsid + '.json')
+        json = simplejson.load(fd)
+        fd.close()
         return json
- 
-    def searchproduct(self, product, channel): 
-        fd = utils.web.getUrlFd('http://www.sparkfun.com/search/results.json?what=products&term=' + urllib.quote(product)) 
-        json = simplejson.load(fd) 
-        fd.close() 
+
+    def searchproduct(self, product, channel):
+        fd = utils.web.getUrlFd('http://www.sparkfun.com/search/results.json?what=products&term=' + urllib.quote(product))
+        json = simplejson.load(fd)
+        fd.close()
         return json
 
     def search(self, irc, msg, args, text):
